@@ -7,4 +7,7 @@
 
 	<!-- Duration of transition animation of fragments-->
 	<integer name="fragment_animation_duration">250</integer>
+
+	<!-- Size of imageView -->
+	<dimen name="imageview_size">100dp</dimen>
 </resources>

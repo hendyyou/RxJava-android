@@ -32,6 +32,13 @@
 			android:text="@string/fragment_core_edittext_button_text"
 			/>
 
+		<Button
+			android:id="@+id/fragment_core_retrofit_button"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="@string/fragment_core_retrofit_button_text"
+			/>
+
 	</LinearLayout>
 
 </ScrollView>

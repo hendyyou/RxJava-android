@@ -70,6 +70,20 @@ public class CoreFragment extends android.support.v4.app.Fragment
 				.commit();
 	}
 
+
+	@OnClick(R.id.fragment_core_retrofit_button)
+	public void clickRetroFitDemo()
+	{
+		getActivity().getSupportFragmentManager()
+				.beginTransaction()
+				.addToBackStack(RetrofitFragment.class.getName())
+				.setCustomAnimations(R.anim.slide_enter, R.anim.slide_exit, R.anim.slide_enter_pop, R.anim.slide_exit_pop)
+				.replace(android.R.id.content,
+						RetrofitFragment.newInstance(),
+						RetrofitFragment.class.getName())
+				.commit();
+	}
+
 	@Override
 	public void onAttach(Activity activity)
 	{
