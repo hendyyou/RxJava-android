@@ -1,6 +1,18 @@
 <resources>
-	<string name="app_name">RxJava demo</string>
 
-	<string name="hello_world">Hello world!</string>
-	<string name="action_settings">Settings</string>
+	<!-- General String -->
+	<string name="app_name">RxAndroid/RetroLambda demo</string>
+
+	<!-- Core fragment String -->
+	<string name="fragment_core_click_button_text">Click counter example</string>
+	<string name="fragment_core_edittext_button_text">EditText example</string>
+
+	<!-- Click Counter fragment String -->
+	<string name="fragment_click_counter_button_lambda_text">Lambda counter</string>
+	<string name="fragment_click_counter_button_rxandroid_text">RxAndroid counter</string>
+
+	<!-- EditText fragment String -->
+	<string name="fragment_edittext_lambda_header">Using lambdas:</string>
+	<string name="fragment_edittext_rxandroid_header">Using just RxAndroid:</string>
+	<string name="fragment_edittext_edittext_hist">\"test\" postfix needed</string>
 </resources>

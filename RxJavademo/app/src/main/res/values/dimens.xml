@@ -2,4 +2,9 @@
 	<!-- Default screen margins, per the Android Design guidelines. -->
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
+
+	<dimen name="textview_height">100dp</dimen>
+
+	<!-- Duration of transition animation of fragments-->
+	<integer name="fragment_animation_duration">250</integer>
 </resources>
