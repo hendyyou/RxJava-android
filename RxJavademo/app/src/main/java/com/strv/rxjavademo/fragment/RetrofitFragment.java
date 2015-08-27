@@ -96,7 +96,11 @@ public class RetrofitFragment extends Fragment
 								mProgressBar.setVisibility(View.GONE);
 							}
 						},
-						Throwable::printStackTrace,
+						error ->
+						{
+							mProgressBar.setVisibility(View.GONE);
+							System.out.println("FUCK : error is : " + error.getLocalizedMessage());
+						},
 						() -> {}
 			);
 		}
