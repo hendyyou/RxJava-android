@@ -101,20 +101,23 @@ public class FormFragment extends BaseFragment
 				.observeOn(AndroidSchedulers.mainThread());
 
 
-		mEdittextLambdaObservable
-				.distinctUntilChanged()
-				.map(stateChanged ->
-						stateChanged ? Color.BLACK : Color.RED)
-				.subscribe(
-						mLambdaEditText::setTextColor);
+		mCompositeSubscription.add(
+				mEdittextLambdaObservable
+						.distinctUntilChanged()
+						.map(stateChanged ->
+								stateChanged ? Color.BLACK : Color.RED)
+						.subscribe(
+								mLambdaEditText::setTextColor)
+		);
 
 
-
-		Observable.combineLatest(mEdittextLambdaObservable, mSwitchLambdaObservable, (a,b) ->
-				a && b)
-				.distinctUntilChanged()
-				.subscribe(
-						mLambdaButton::setEnabled);
+		mCompositeSubscription.add(
+				Observable.combineLatest(mEdittextLambdaObservable, mSwitchLambdaObservable, (a, b) ->
+						a && b)
+						.distinctUntilChanged()
+						.subscribe(
+								mLambdaButton::setEnabled)
+		);
 
 
 		//****************************************
@@ -154,42 +157,47 @@ public class FormFragment extends BaseFragment
 		.observeOn(AndroidSchedulers.mainThread());
 
 
-		mEdittextRxAndroidObservable
-		.distinctUntilChanged()
-		.map(new Func1<Boolean, Integer>()
-		{
-			@Override
-			public Integer call(Boolean stateChanged)
+		mCompositeSubscription.add(
+				mEdittextRxAndroidObservable
+						.distinctUntilChanged()
+						.map(new Func1<Boolean, Integer>()
+						{
+							@Override
+							public Integer call(Boolean stateChanged)
+							{
+								return stateChanged ? Color.BLACK : Color.RED;
+							}
+						})
+						.subscribe(new Action1<Integer>()
+						{
+							@Override
+							public void call(Integer color)
+							{
+								mRxAndroidEditText.setTextColor(color);
+							}
+						})
+		);
+
+		mCompositeSubscription.add(
+			Observable.combineLatest(mEdittextRxAndroidObservable, mSwitchRxAndroidObservable, new Func2<Boolean, Boolean, Boolean>()
 			{
-				return stateChanged ? Color.BLACK : Color.RED;
-			}
-		})
-		.subscribe(new Action1<Integer>()
-		{
-			@Override
-			public void call(Integer color)
+				@Override
+				public Boolean call(Boolean aBoolean, Boolean aBoolean2)
+				{
+					return aBoolean && aBoolean2;
+				}
+			})
+			.distinctUntilChanged()
+			.subscribe(new Action1<Boolean>()
 			{
-				mRxAndroidEditText.setTextColor(color);
-			}
-		});
+				@Override
+				public void call(Boolean aBoolean)
+				{
+					mRxAndroidButton.setEnabled(aBoolean);
+				}
+			})
+		);
 
 
-		Observable.combineLatest(mEdittextRxAndroidObservable, mSwitchRxAndroidObservable, new Func2<Boolean, Boolean, Boolean>()
-		{
-			@Override
-			public Boolean call(Boolean aBoolean, Boolean aBoolean2)
-			{
-				return aBoolean && aBoolean2;
-			}
-		})
-		.distinctUntilChanged()
-		.subscribe(new Action1<Boolean>()
-		{
-			@Override
-			public void call(Boolean aBoolean)
-			{
-				mRxAndroidButton.setEnabled(aBoolean);
-			}
-		});
 	}
 }

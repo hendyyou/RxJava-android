@@ -77,12 +77,14 @@ public class EditTextFragment extends BaseFragment
 		//****************************************
 		mEdittextLambdaObservable = WidgetObservable.text(mLambdaEditText, false);
 
-		mEdittextLambdaObservable.filter(event ->
-				event.text().toString().endsWith("test"))
-		.map(event ->
-				event.text().toString())
-		.observeOn(AndroidSchedulers.mainThread())
-		.subscribe(mLambdaTextView::setText);
+		mCompositeSubscription.add(
+			mEdittextLambdaObservable.filter(event ->
+					event.text().toString().endsWith("test"))
+			.map(event ->
+					event.text().toString())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(mLambdaTextView::setText)
+		);
 
 
 		//****************************************
@@ -90,32 +92,34 @@ public class EditTextFragment extends BaseFragment
 		//****************************************
 		mEdittextRxAndroidObservable = WidgetObservable.text(mRxAndroidEditText, false);
 
-		mEdittextRxAndroidObservable.filter(new Func1<OnTextChangeEvent, Boolean>()
-		{
-			@Override
-			public Boolean call(OnTextChangeEvent onTextChangeEvent)
+		mCompositeSubscription.add(
+			mEdittextRxAndroidObservable.filter(new Func1<OnTextChangeEvent, Boolean>()
 			{
-				return onTextChangeEvent.text().toString().endsWith("test");
-			}
+				@Override
+				public Boolean call(OnTextChangeEvent onTextChangeEvent)
+				{
+					return onTextChangeEvent.text().toString().endsWith("test");
+				}
 
-		})
-		.map(new Func1<OnTextChangeEvent, String>()
-		{
-			@Override
-			public String call(OnTextChangeEvent onTextChangeEvent)
+			})
+			.map(new Func1<OnTextChangeEvent, String>()
 			{
-				return onTextChangeEvent.text().toString();
-			}
+				@Override
+				public String call(OnTextChangeEvent onTextChangeEvent)
+				{
+					return onTextChangeEvent.text().toString();
+				}
 
-		})
-		.observeOn(AndroidSchedulers.mainThread())
-		.subscribe(new Action1<String>()
-		{
-			@Override
-			public void call(String filteredString)
+			})
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Action1<String>()
 			{
-				mRxAndroidTextView.setText(filteredString);
-			}
-		});
+				@Override
+				public void call(String filteredString)
+				{
+					mRxAndroidTextView.setText(filteredString);
+				}
+			})
+		);
 	}
 }
