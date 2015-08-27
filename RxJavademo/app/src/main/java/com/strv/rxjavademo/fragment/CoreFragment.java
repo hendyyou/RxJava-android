@@ -62,11 +62,25 @@ public class CoreFragment extends android.support.v4.app.Fragment
 	{
 		getActivity().getSupportFragmentManager()
 				.beginTransaction()
-				.addToBackStack(EditTextExampleFragment.class.getName())
+				.addToBackStack(EditTextFragment.class.getName())
 				.setCustomAnimations(R.anim.slide_enter, R.anim.slide_exit, R.anim.slide_enter_pop, R.anim.slide_exit_pop)
 				.replace(android.R.id.content,
-						EditTextExampleFragment.newInstance(),
-						EditTextExampleFragment.class.getName())
+						EditTextFragment.newInstance(),
+						EditTextFragment.class.getName())
+				.commit();
+	}
+
+
+	@OnClick(R.id.fragment_core_form_button)
+	public void clickFormDemo()
+	{
+		getActivity().getSupportFragmentManager()
+				.beginTransaction()
+				.addToBackStack(FormFragment.class.getName())
+				.setCustomAnimations(R.anim.slide_enter, R.anim.slide_exit, R.anim.slide_enter_pop, R.anim.slide_exit_pop)
+				.replace(android.R.id.content,
+						FormFragment.newInstance(),
+						FormFragment.class.getName())
 				.commit();
 	}
 

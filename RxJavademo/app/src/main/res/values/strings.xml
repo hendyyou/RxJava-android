@@ -6,6 +6,7 @@
 	<!-- Core fragment String -->
 	<string name="fragment_core_click_button_text">Click counter example</string>
 	<string name="fragment_core_edittext_button_text">EditText example</string>
+	<string name="fragment_core_edittext_form_text">Form example</string>
 	<string name="fragment_core_retrofit_button_text">RetroFit example</string>
 
 
@@ -19,6 +20,12 @@
 	<string name="fragment_edittext_rxandroid_header">Using just RxAndroid:</string>
 	<string name="fragment_edittext_edittext_hist">\"test\" postfix needed</string>
 
-	<!-- EditText fragment String -->
-	<string name="fragment_retrofit_button_text">Load info</string>
+
+	<!-- Form fragment string-->
+	<string name="fragment_form_edittext_hint">Somehow limited</string>
+	<string name="fragment_form_button_text">Sign Up</string>
+
+	<!-- RetroFit fragment String -->
+	<string name="fragment_retrofit_lambda_button_text">Load info - Lambda</string>
+	<string name="fragment_retrofit_rxandroid_button_text">Load info - RxAndroid</string>
 </resources>

@@ -24,7 +24,7 @@ import rx.functions.Func1;
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class EditTextExampleFragment extends Fragment
+public class EditTextFragment extends Fragment
 {
 	private Observable<OnTextChangeEvent> mEdittextLambdaObservable;
 	private Observable<OnTextChangeEvent> mEdittextRxAndroidObservable;
@@ -42,9 +42,9 @@ public class EditTextExampleFragment extends Fragment
 	TextView mRxAndroidTextView;
 
 
-	public static EditTextExampleFragment newInstance()
+	public static EditTextFragment newInstance()
 	{
-		EditTextExampleFragment fragment = new EditTextExampleFragment();
+		EditTextFragment fragment = new EditTextFragment();
 		return fragment;
 	}
 
@@ -63,7 +63,7 @@ public class EditTextExampleFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
-		View layout = inflater.inflate(R.layout.fragment_edittext_example, container, false);
+		View layout = inflater.inflate(R.layout.fragment_edittext, container, false);
 		ButterKnife.bind(this, layout);
 		renderView();
 		return layout;

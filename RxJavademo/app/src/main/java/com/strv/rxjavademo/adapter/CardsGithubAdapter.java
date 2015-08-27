@@ -72,6 +72,13 @@ public class CardsGithubAdapter extends RecyclerView.Adapter<CardsGithubAdapter.
 	}
 
 
+	public void clearAdapter()
+	{
+		mGithubItems.clear();
+		notifyDataSetChanged();
+	}
+
+
 	class ViewHolder extends RecyclerView.ViewHolder
 	{
 		@Bind(R.id.card_github_imageview)

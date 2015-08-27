@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.strv.rxjavademo.R;
 import com.strv.rxjavademo.adapter.CardsGithubAdapter;
@@ -18,19 +18,13 @@ import com.strv.rxjavademo.service.GithubService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit.RestAdapter;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.android.view.OnClickEvent;
-import rx.android.view.ViewObservable;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -39,11 +33,11 @@ import rx.schedulers.Schedulers;
  */
 public class RetrofitFragment extends Fragment
 {
-	@Bind(R.id.fragment_retrofit_example_button)
-	Button mLoadInfoButton;
-
 	@Bind(R.id.fragment_retrofit_example_recycler)
 	RecyclerView mRecyclerView;
+
+	@Bind(R.id.fragment_retrofit_example_progress)
+	ProgressBar mProgressBar;
 
 	private CardsGithubAdapter mCardAdapter;
 
@@ -69,20 +63,57 @@ public class RetrofitFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
-		View layout = inflater.inflate(R.layout.fragment_retrofit_example, container, false);
+		View layout = inflater.inflate(R.layout.fragment_retrofit, container, false);
 		ButterKnife.bind(this, layout);
 		renderView();
 		return layout;
 	}
 
 
-	@OnClick(R.id.fragment_retrofit_example_button)
+	@OnClick(R.id.fragment_retrofit_lambda_example_button)
 	public void clickLoadLambdaData()
 	{
+		mCardAdapter.clearAdapter();
+
+		GithubService service = new RestAdapter.Builder()
+				.setEndpoint(GithubService.BASE_ENDPOINT)
+				.build()
+				.create(GithubService.class);
+
+		mProgressBar.setVisibility(View.VISIBLE);
+
+		for(String username : RetrofitFragment.getGithubusernames)
+		{
+			service.getUser(username)
+					.subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(item ->
+						{
+							mCardAdapter.addGithubItem(item);
+
+							if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+							{
+								mProgressBar.setVisibility(View.GONE);
+							}
+						},
+						Throwable::printStackTrace,
+						() -> {}
+			);
+		}
+	}
+
+
+	@OnClick(R.id.fragment_retrofit_rxandroid_example_button)
+	public void clickLoadRxAndroidData()
+	{
+		mCardAdapter.clearAdapter();
+
 		GithubService service = new RestAdapter.Builder()
 									.setEndpoint(GithubService.BASE_ENDPOINT)
 									.build()
 									.create(GithubService.class);
+
+		mProgressBar.setVisibility(View.VISIBLE);
 
 		for(String username : RetrofitFragment.getGithubusernames)
 		{
@@ -95,6 +126,11 @@ public class RetrofitFragment extends Fragment
 						public void onNext(GithubUserModel item)
 						{
 							mCardAdapter.addGithubItem(item);
+
+							if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+							{
+								mProgressBar.setVisibility(View.GONE);
+							}
 						}
 
 
@@ -107,6 +143,7 @@ public class RetrofitFragment extends Fragment
 						@Override
 						public void onError(Throwable e)
 						{
+							mProgressBar.setVisibility(View.GONE);
 							System.out.println("FUCK : error is : " + e.getLocalizedMessage());
 						}
 					});
