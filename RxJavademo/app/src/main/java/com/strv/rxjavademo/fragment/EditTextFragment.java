@@ -24,7 +24,7 @@ import rx.functions.Func1;
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class EditTextFragment extends Fragment
+public class EditTextFragment extends BaseFragment
 {
 	private Observable<OnTextChangeEvent> mEdittextLambdaObservable;
 	private Observable<OnTextChangeEvent> mEdittextRxAndroidObservable;
@@ -117,12 +117,5 @@ public class EditTextFragment extends Fragment
 				mRxAndroidTextView.setText(filteredString);
 			}
 		});
-	}
-
-
-	@Override
-	public void onPause()
-	{
-		super.onPause();
 	}
 }

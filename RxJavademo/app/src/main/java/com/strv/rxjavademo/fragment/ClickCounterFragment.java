@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.strv.rxjavademo.R;
+import com.strv.rxjavademo.RxJavaDemoApplication;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,20 +18,27 @@ import java.util.concurrent.TimeUnit;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
+import rx.Subscription;
+import rx.android.app.AppObservable;
+import rx.android.lifecycle.LifecycleObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.android.view.OnClickEvent;
 import rx.android.view.ViewObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.subscriptions.CompositeSubscription;
 
 
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class ClickCounterFragment extends Fragment
+public class ClickCounterFragment extends BaseFragment
 {
 	private Observable<OnClickEvent> mButtonLambdaObservable;
 	private Observable<OnClickEvent> mButtonRxAndroidObservable;
+
+	private Subscription mButtonLambdaSubscription;
+	private Subscription mButtonRxAndroidSubscription;
 
 	@Bind(R.id.fragment_click_counter_button_lambda)
 	Button mLambdaCounterButton;
@@ -74,7 +82,7 @@ public class ClickCounterFragment extends Fragment
 		//****************************************
 		mButtonLambdaObservable = ViewObservable.clicks(mLambdaCounterButton, false);
 
-		mButtonLambdaObservable.map(clickEvent ->
+		mButtonLambdaSubscription = mButtonLambdaObservable.map(clickEvent ->
 		{
 			return 1;
 		})
@@ -89,13 +97,15 @@ public class ClickCounterFragment extends Fragment
 			}
 		});
 
+		mCompositeSubscription.add(mButtonLambdaSubscription);
+
 
 		//****************************************
 		//RxAndroid approach
 		//****************************************
 		mButtonRxAndroidObservable = ViewObservable.clicks(mRxAndroidCounterButton, false);
 
-		mButtonRxAndroidObservable.map(new Func1<OnClickEvent, Integer>()
+		mButtonRxAndroidSubscription = mButtonRxAndroidObservable.map(new Func1<OnClickEvent, Integer>()
 		{
 			@Override
 			public Integer call(OnClickEvent onClickEvent)
@@ -106,25 +116,20 @@ public class ClickCounterFragment extends Fragment
 		})
 		.buffer(3, TimeUnit.SECONDS)
 		.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Action1<List<Integer>>()
-				{
-					@Override
-					public void call(List<Integer> integers)
-					{
-						int counter = integers.size();
+		.subscribe(new Action1<List<Integer>>()
+		{
+			@Override
+			public void call(List<Integer> integers)
+			{
+				int counter = integers.size();
 
-						if(counter > 0)
-						{
-							Toast.makeText(getActivity(), "Clicked " + counter + " times", Toast.LENGTH_SHORT).show();
+				if(counter > 0)
+				{
+					Toast.makeText(getActivity(), "Clicked " + counter + " times", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-	}
 
-
-	@Override
-	public void onPause()
-	{
-		super.onPause();
+		mCompositeSubscription.add(mButtonRxAndroidSubscription);
 	}
 }

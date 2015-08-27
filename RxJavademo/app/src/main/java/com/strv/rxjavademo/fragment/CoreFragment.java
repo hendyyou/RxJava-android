@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class CoreFragment extends android.support.v4.app.Fragment
+public class CoreFragment extends BaseFragment
 {
 
 	public static CoreFragment newInstance()

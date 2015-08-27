@@ -28,7 +28,7 @@ import rx.functions.Func2;
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class FormFragment extends Fragment
+public class FormFragment extends BaseFragment
 {
 	private Observable<Boolean> mEdittextLambdaObservable;
 	private Observable<Boolean> mSwitchLambdaObservable;
@@ -191,12 +191,5 @@ public class FormFragment extends Fragment
 				mRxAndroidButton.setEnabled(aBoolean);
 			}
 		});
-	}
-
-
-	@Override
-	public void onPause()
-	{
-		super.onPause();
 	}
 }

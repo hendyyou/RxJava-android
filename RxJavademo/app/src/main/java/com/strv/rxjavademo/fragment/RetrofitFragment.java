@@ -2,13 +2,11 @@ package com.strv.rxjavademo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.strv.rxjavademo.R;
@@ -18,6 +16,7 @@ import com.strv.rxjavademo.service.GithubService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +30,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class RetrofitFragment extends Fragment
+public class RetrofitFragment extends BaseFragment
 {
 	@Bind(R.id.fragment_retrofit_example_recycler)
 	RecyclerView mRecyclerView;
@@ -84,24 +83,29 @@ public class RetrofitFragment extends Fragment
 
 		for(String username : RetrofitFragment.getGithubusernames)
 		{
-			service.getUser(username)
-					.subscribeOn(Schedulers.io())
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe(item ->
-						{
-							mCardAdapter.addGithubItem(item);
+			mCompositeSubscription.add(
+					service.getUser(username)
+							.subscribeOn(Schedulers.io())
+							.observeOn(AndroidSchedulers.mainThread())
+							.delay(2, TimeUnit.SECONDS)
+							.observeOn(AndroidSchedulers.mainThread())
+							.subscribe(item ->
+									{
+										mCardAdapter.addGithubItem(item);
 
-							if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
-							{
-								mProgressBar.setVisibility(View.GONE);
-							}
-						},
-						error ->
-						{
-							mProgressBar.setVisibility(View.GONE);
-							System.out.println("FUCK : error is : " + error.getLocalizedMessage());
-						},
-						() -> {}
+										if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+										{
+											mProgressBar.setVisibility(View.GONE);
+										}
+									},
+									error ->
+									{
+										mProgressBar.setVisibility(View.GONE);
+										System.out.println("FUCK : error is : " + error.getLocalizedMessage());
+									},
+									() -> {
+									}
+							)
 			);
 		}
 	}
@@ -121,36 +125,38 @@ public class RetrofitFragment extends Fragment
 
 		for(String username : RetrofitFragment.getGithubusernames)
 		{
-			service.getUser(username)
-					.subscribeOn(Schedulers.io())
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe(new Subscriber<GithubUserModel>()
-					{
-						@Override
-						public void onNext(GithubUserModel item)
-						{
-							mCardAdapter.addGithubItem(item);
-
-							if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+			mCompositeSubscription.add(
+					service.getUser(username)
+							.subscribeOn(Schedulers.io())
+							.observeOn(AndroidSchedulers.mainThread())
+							.subscribe(new Subscriber<GithubUserModel>()
 							{
-								mProgressBar.setVisibility(View.GONE);
-							}
-						}
+								@Override
+								public void onNext(GithubUserModel item)
+								{
+									mCardAdapter.addGithubItem(item);
+
+									if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+									{
+										mProgressBar.setVisibility(View.GONE);
+									}
+								}
 
 
-						@Override
-						public void onCompleted()
-						{
-						}
+								@Override
+								public void onCompleted()
+								{
+								}
 
 
-						@Override
-						public void onError(Throwable e)
-						{
-							mProgressBar.setVisibility(View.GONE);
-							System.out.println("FUCK : error is : " + e.getLocalizedMessage());
-						}
-					});
+								@Override
+								public void onError(Throwable e)
+								{
+									mProgressBar.setVisibility(View.GONE);
+									System.out.println("FUCK : error is : " + e.getLocalizedMessage());
+								}
+							})
+			);
 		}
 	}
 
@@ -161,13 +167,6 @@ public class RetrofitFragment extends Fragment
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		mCardAdapter = new CardsGithubAdapter();
 		mRecyclerView.setAdapter(mCardAdapter);
-	}
-
-
-	@Override
-	public void onPause()
-	{
-		super.onPause();
 	}
 
 
