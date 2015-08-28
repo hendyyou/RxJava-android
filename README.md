@@ -7,6 +7,7 @@ Covered fields:
  * how to combine Rx extension and RetroFit
  * how to combine Rx extension and Firebase
  * how to write your own Observables
+ * how to write your own Otto/EventBus like Bus in Rx
  * how to do more complex operations with map functions - filters/maps etc.
  * usage of method references
  * **every sample is written in both classic RxAndroid and in modern lambda manner**
