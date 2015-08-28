@@ -78,15 +78,12 @@ public class FirebaseFragment extends BaseFragment
 		//RxAndroid + Lambda approach
 		//****************************************
 		mCompositeSubscription.add(
-			RxCustomBus.getInstance().observe()
+			RxCustomBus.getInstance().observe(FirebaseDataEvent.class)
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribe(event ->
 					{
-						if(event instanceof FirebaseDataEvent)
-						{
-							mLambdaTextView.setText(((FirebaseDataEvent) event).getFirebaseDataString());
-							mProgressBar.setVisibility(View.GONE);
-						}
+						mLambdaTextView.setText(event.getFirebaseDataString());
+						mProgressBar.setVisibility(View.GONE);
 					},
 					error ->
 					{

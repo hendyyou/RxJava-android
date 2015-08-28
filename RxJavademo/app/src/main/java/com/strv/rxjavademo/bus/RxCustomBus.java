@@ -3,6 +3,7 @@ package com.strv.rxjavademo.bus;
 import com.strv.rxjavademo.Event.FirebaseDataEvent;
 
 import rx.Observable;
+import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
@@ -55,4 +56,16 @@ public class RxCustomBus
 		return rxBus;
 	}
 
+
+	/**
+	 * Method to observe on certain Event class
+	 * @param eventType
+	 * @param <T>
+	 * @return
+	 */
+	public <T extends Object> Observable<T> observe(final Class<T> eventType)
+	{
+		return rxBus.filter(eventType::isInstance)
+				.cast(eventType);
+	}
 }
