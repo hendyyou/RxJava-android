@@ -9,6 +9,7 @@
 	<string name="fragment_core_edittext_form_text">Form example</string>
 	<string name="fragment_core_autocomplete_form_text">Autocomplete example</string>
 	<string name="fragment_core_retrofit_button_text">RetroFit example</string>
+	<string name="fragment_core_firebase_button_text">Firebase example</string>
 
 
 	<!-- Click Counter fragment String -->
@@ -31,8 +32,12 @@
 	<string name="fragment_autocomplete_edittext_hint">Clever request</string>
 
 
-	<!-- RetroFit fragment String -->
+	<!-- RetroFit fragment string -->
 	<string name="fragment_retrofit_lambda_button_text">Load info - Lambda</string>
 	<string name="fragment_retrofit_rxandroid_button_text">Load info - RxAndroid</string>
+
+
+	<!-- Firebase string-->
+	<string name="fragment_firebase_lambda_button_text">Get firebase data</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.strv.rxjavademo;
 import android.app.Application;
 import android.content.Context;
 
+import com.firebase.client.Firebase;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -19,6 +20,7 @@ public class RxJavaDemoApplication extends Application
 	{
 		super.onCreate();
 		mRefWatcher = LeakCanary.install(this);
+		Firebase.setAndroidContext(this);
 	}
 
 

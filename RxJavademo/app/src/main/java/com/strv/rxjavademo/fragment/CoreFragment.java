@@ -112,6 +112,21 @@ public class CoreFragment extends BaseFragment
 				.commit();
 	}
 
+
+	@OnClick(R.id.fragment_core_firebase_button)
+	public void clickFirebaseDemo()
+	{
+		getActivity().getSupportFragmentManager()
+				.beginTransaction()
+				.addToBackStack(FirebaseFragment.class.getName())
+				.setCustomAnimations(R.anim.slide_enter, R.anim.slide_exit, R.anim.slide_enter_pop, R.anim.slide_exit_pop)
+				.replace(android.R.id.content,
+						FirebaseFragment.newInstance(),
+						FirebaseFragment.class.getName())
+				.commit();
+	}
+
+
 	@Override
 	public void onAttach(Activity activity)
 	{
