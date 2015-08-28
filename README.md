@@ -3,11 +3,13 @@
 This project is intented for every Android developer who is interested in Rx extension for Java language.
 
 Covered fields:
- * how to combine Rx extension and Android UI - Button/EditText etc.
+ * how to combine Rx extension and Android UI - Button/EditText/Switch etc.
  * how to combine Rx extension and RetroFit
+ * how to combine Rx extension and Firebase
+ * how to write your own Observables
  * how to do more complex operations with map functions - filters/maps etc.
  * usage of method references
- * every sample is written in both classic RxAndroid and in modern lambda manner
+ * **every sample is written in both classic RxAndroid and in modern lambda manner**
 
 
 Usage
