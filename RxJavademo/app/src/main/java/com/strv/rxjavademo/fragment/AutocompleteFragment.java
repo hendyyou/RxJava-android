@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.strv.rxjavademo.R;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -23,27 +25,27 @@ import rx.functions.Func1;
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class EditTextFragment extends BaseFragment
+public class AutocompleteFragment extends BaseFragment
 {
 	private Observable<OnTextChangeEvent> mEdittextLambdaObservable;
 	private Observable<OnTextChangeEvent> mEdittextRxAndroidObservable;
 
-	@Bind(R.id.fragment_edittext_lambda_example_edittext)
+	@Bind(R.id.fragment_autocomplete_lambda_example_edittext)
 	EditText mLambdaEditText;
 
-	@Bind(R.id.fragment_edittext_lambda_example_textview)
+	@Bind(R.id.fragment_autocomplete_lambda_example_textview)
 	TextView mLambdaTextView;
 
-	@Bind(R.id.fragment_edittext_rxandroid_example_edittext)
+	@Bind(R.id.fragment_autocomplete_rxandroid_example_edittext)
 	EditText mRxAndroidEditText;
 
-	@Bind(R.id.fragment_edittext_rxandroid_example_textview)
+	@Bind(R.id.fragment_autocomplete_rxandroid_example_textview)
 	TextView mRxAndroidTextView;
 
 
-	public static EditTextFragment newInstance()
+	public static AutocompleteFragment newInstance()
 	{
-		EditTextFragment fragment = new EditTextFragment();
+		AutocompleteFragment fragment = new AutocompleteFragment();
 		return fragment;
 	}
 
@@ -62,7 +64,7 @@ public class EditTextFragment extends BaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
-		View layout = inflater.inflate(R.layout.fragment_edittext, container, false);
+		View layout = inflater.inflate(R.layout.fragment_autocomplete, container, false);
 		ButterKnife.bind(this, layout);
 		renderView();
 		return layout;
@@ -77,12 +79,11 @@ public class EditTextFragment extends BaseFragment
 		mEdittextLambdaObservable = WidgetObservable.text(mLambdaEditText, false);
 
 		mCompositeSubscription.add(
-			mEdittextLambdaObservable.filter(event ->
-					event.text().toString().endsWith("test"))
-			.map(event ->
-					event.text().toString())
+			mEdittextLambdaObservable
+			.debounce(300, TimeUnit.MILLISECONDS)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(mLambdaTextView::setText)
+			.subscribe(event ->
+					mLambdaTextView.setText("Handle autocomplete request: " + event.text() + "\n" + mLambdaTextView.getText()))
 		);
 
 
@@ -92,31 +93,15 @@ public class EditTextFragment extends BaseFragment
 		mEdittextRxAndroidObservable = WidgetObservable.text(mRxAndroidEditText, false);
 
 		mCompositeSubscription.add(
-			mEdittextRxAndroidObservable.filter(new Func1<OnTextChangeEvent, Boolean>()
-			{
-				@Override
-				public Boolean call(OnTextChangeEvent onTextChangeEvent)
-				{
-					return onTextChangeEvent.text().toString().endsWith("test");
-				}
-
-			})
-			.map(new Func1<OnTextChangeEvent, String>()
-			{
-				@Override
-				public String call(OnTextChangeEvent onTextChangeEvent)
-				{
-					return onTextChangeEvent.text().toString();
-				}
-
-			})
+			mEdittextRxAndroidObservable
+			.debounce(300, TimeUnit.MILLISECONDS)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Action1<String>()
+			.subscribe(new Action1<OnTextChangeEvent>()
 			{
 				@Override
-				public void call(String filteredString)
+				public void call(OnTextChangeEvent event)
 				{
-					mRxAndroidTextView.setText(filteredString);
+					mRxAndroidTextView.setText("Handle autocomplete request: " + event.text() + "\n" + mRxAndroidTextView.getText());
 				}
 			})
 		);

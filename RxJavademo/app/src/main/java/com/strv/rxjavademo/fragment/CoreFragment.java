@@ -85,6 +85,20 @@ public class CoreFragment extends BaseFragment
 	}
 
 
+	@OnClick(R.id.fragment_core_autocomplete_button)
+	public void clickAutocompleteDemo()
+	{
+		getActivity().getSupportFragmentManager()
+				.beginTransaction()
+				.addToBackStack(AutocompleteFragment.class.getName())
+				.setCustomAnimations(R.anim.slide_enter, R.anim.slide_exit, R.anim.slide_enter_pop, R.anim.slide_exit_pop)
+				.replace(android.R.id.content,
+						AutocompleteFragment.newInstance(),
+						AutocompleteFragment.class.getName())
+				.commit();
+	}
+
+
 	@OnClick(R.id.fragment_core_retrofit_button)
 	public void clickRetroFitDemo()
 	{
