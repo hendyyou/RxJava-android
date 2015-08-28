@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.strv.rxjavademo.R;
 
 import java.util.concurrent.TimeUnit;
@@ -16,10 +18,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.android.widget.OnTextChangeEvent;
-import rx.android.widget.WidgetObservable;
+
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 
 /**
@@ -27,8 +27,8 @@ import rx.functions.Func1;
  */
 public class AutocompleteFragment extends BaseFragment
 {
-	private Observable<OnTextChangeEvent> mEdittextLambdaObservable;
-	private Observable<OnTextChangeEvent> mEdittextRxAndroidObservable;
+	private Observable<TextViewTextChangeEvent> mEdittextLambdaObservable;
+	private Observable<TextViewTextChangeEvent> mEdittextRxAndroidObservable;
 
 	@Bind(R.id.fragment_autocomplete_lambda_example_edittext)
 	EditText mLambdaEditText;
@@ -76,7 +76,7 @@ public class AutocompleteFragment extends BaseFragment
 		//****************************************
 		//RxAndroid + Lambda + method references approach
 		//****************************************
-		mEdittextLambdaObservable = WidgetObservable.text(mLambdaEditText, false);
+		mEdittextLambdaObservable = RxTextView.textChangeEvents(mLambdaEditText);
 
 		mCompositeSubscription.add(
 			mEdittextLambdaObservable
@@ -90,16 +90,16 @@ public class AutocompleteFragment extends BaseFragment
 		//****************************************
 		//RxAndroid approach
 		//****************************************
-		mEdittextRxAndroidObservable = WidgetObservable.text(mRxAndroidEditText, false);
+		mEdittextRxAndroidObservable = RxTextView.textChangeEvents(mRxAndroidEditText);
 
 		mCompositeSubscription.add(
 			mEdittextRxAndroidObservable
 			.debounce(300, TimeUnit.MILLISECONDS)
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Action1<OnTextChangeEvent>()
+			.subscribe(new Action1<TextViewTextChangeEvent>()
 			{
 				@Override
-				public void call(OnTextChangeEvent event)
+				public void call(TextViewTextChangeEvent event)
 				{
 					mRxAndroidTextView.setText("Handle autocomplete request: " + event.text() + "\n" + mRxAndroidTextView.getText());
 				}

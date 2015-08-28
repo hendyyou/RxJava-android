@@ -10,15 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import com.jakewharton.rxbinding.widget.RxCompoundButton;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.strv.rxjavademo.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.android.view.OnCheckedChangeEvent;
-import rx.android.widget.OnTextChangeEvent;
-import rx.android.widget.WidgetObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
@@ -88,15 +88,14 @@ public class FormFragment extends BaseFragment
 		//****************************************
 		//RxAndroid + Lambda + method references approach
 		//****************************************
-		mEdittextLambdaObservable = WidgetObservable.text(mLambdaEditText, false)
+		mEdittextLambdaObservable = RxTextView.textChangeEvents(mLambdaEditText)
 				.map(event ->
 						event.text().toString())
 				.map(text -> text.length() > 8)
 				.observeOn(AndroidSchedulers.mainThread());
 
 
-		mSwitchLambdaObservable = WidgetObservable.input(mLambdaSwitch, false)
-				.map(a -> a.value())
+		mSwitchLambdaObservable = RxCompoundButton.checkedChanges(mLambdaSwitch)
 				.observeOn(AndroidSchedulers.mainThread());
 
 
@@ -122,11 +121,11 @@ public class FormFragment extends BaseFragment
 		//****************************************
 		//RxAndroid approach
 		//****************************************
-		mEdittextRxAndroidObservable = WidgetObservable.text(mRxAndroidEditText, false)
-		.map(new Func1<OnTextChangeEvent, String>()
+		mEdittextRxAndroidObservable = RxTextView.textChangeEvents(mRxAndroidEditText)
+		.map(new Func1<TextViewTextChangeEvent, String>()
 		{
 			@Override
-			public String call(OnTextChangeEvent onTextChangeEvent)
+			public String call(TextViewTextChangeEvent onTextChangeEvent)
 			{
 				return onTextChangeEvent.text().toString();
 			}
@@ -144,15 +143,7 @@ public class FormFragment extends BaseFragment
 		.observeOn(AndroidSchedulers.mainThread());
 
 
-		mSwitchRxAndroidObservable = WidgetObservable.input(mRxAndroidSwitch, false)
-		.map(new Func1<OnCheckedChangeEvent, Boolean>()
-		{
-			@Override
-			public Boolean call(OnCheckedChangeEvent event)
-			{
-				return event.value();
-			}
-		})
+		mSwitchRxAndroidObservable = RxCompoundButton.checkedChanges(mRxAndroidSwitch)
 		.observeOn(AndroidSchedulers.mainThread());
 
 

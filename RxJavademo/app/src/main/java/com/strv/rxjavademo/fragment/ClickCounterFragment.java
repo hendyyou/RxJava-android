@@ -2,15 +2,14 @@ package com.strv.rxjavademo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.strv.rxjavademo.R;
-import com.strv.rxjavademo.RxJavaDemoApplication;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,14 +18,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscription;
-import rx.android.app.AppObservable;
-import rx.android.lifecycle.LifecycleObservable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.android.view.OnClickEvent;
-import rx.android.view.ViewObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.subscriptions.CompositeSubscription;
 
 
 /**
@@ -34,8 +28,8 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class ClickCounterFragment extends BaseFragment
 {
-	private Observable<OnClickEvent> mButtonLambdaObservable;
-	private Observable<OnClickEvent> mButtonRxAndroidObservable;
+	private Observable<Object> mButtonLambdaObservable;
+	private Observable<Object> mButtonRxAndroidObservable;
 
 	private Subscription mButtonLambdaSubscription;
 	private Subscription mButtonRxAndroidSubscription;
@@ -80,7 +74,7 @@ public class ClickCounterFragment extends BaseFragment
 		//****************************************
 		//RxAndroid + Lambda approach
 		//****************************************
-		mButtonLambdaObservable = ViewObservable.clicks(mLambdaCounterButton, false);
+		mButtonLambdaObservable = RxView.clicks(mLambdaCounterButton);
 
 		mButtonLambdaSubscription = mButtonLambdaObservable.map(clickEvent ->
 		{
@@ -103,12 +97,12 @@ public class ClickCounterFragment extends BaseFragment
 		//****************************************
 		//RxAndroid approach
 		//****************************************
-		mButtonRxAndroidObservable = ViewObservable.clicks(mRxAndroidCounterButton, false);
+		mButtonRxAndroidObservable = RxView.clicks(mRxAndroidCounterButton);
 
-		mButtonRxAndroidSubscription = mButtonRxAndroidObservable.map(new Func1<OnClickEvent, Integer>()
+		mButtonRxAndroidSubscription = mButtonRxAndroidObservable.map(new Func1<Object, Integer>()
 		{
 			@Override
-			public Integer call(OnClickEvent onClickEvent)
+			public Integer call(Object onClickEvent)
 			{
 				return 1;
 			}

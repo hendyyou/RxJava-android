@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.strv.rxjavademo.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.android.widget.OnTextChangeEvent;
-import rx.android.widget.WidgetObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -25,8 +25,8 @@ import rx.functions.Func1;
  */
 public class EditTextFragment extends BaseFragment
 {
-	private Observable<OnTextChangeEvent> mEdittextLambdaObservable;
-	private Observable<OnTextChangeEvent> mEdittextRxAndroidObservable;
+	private Observable<TextViewTextChangeEvent> mEdittextLambdaObservable;
+	private Observable<TextViewTextChangeEvent> mEdittextRxAndroidObservable;
 
 	@Bind(R.id.fragment_edittext_lambda_example_edittext)
 	EditText mLambdaEditText;
@@ -74,7 +74,7 @@ public class EditTextFragment extends BaseFragment
 		//****************************************
 		//RxAndroid + Lambda + method references approach
 		//****************************************
-		mEdittextLambdaObservable = WidgetObservable.text(mLambdaEditText, false);
+		mEdittextLambdaObservable = RxTextView.textChangeEvents(mLambdaEditText);
 
 		mCompositeSubscription.add(
 			mEdittextLambdaObservable.filter(event ->
@@ -89,22 +89,22 @@ public class EditTextFragment extends BaseFragment
 		//****************************************
 		//RxAndroid approach
 		//****************************************
-		mEdittextRxAndroidObservable = WidgetObservable.text(mRxAndroidEditText, false);
+		mEdittextRxAndroidObservable = RxTextView.textChangeEvents(mRxAndroidEditText);
 
 		mCompositeSubscription.add(
-			mEdittextRxAndroidObservable.filter(new Func1<OnTextChangeEvent, Boolean>()
+			mEdittextRxAndroidObservable.filter(new Func1<TextViewTextChangeEvent, Boolean>()
 			{
 				@Override
-				public Boolean call(OnTextChangeEvent onTextChangeEvent)
+				public Boolean call(TextViewTextChangeEvent onTextChangeEvent)
 				{
 					return onTextChangeEvent.text().toString().endsWith("test");
 				}
 
 			})
-			.map(new Func1<OnTextChangeEvent, String>()
+			.map(new Func1<TextViewTextChangeEvent, String>()
 			{
 				@Override
-				public String call(OnTextChangeEvent onTextChangeEvent)
+				public String call(TextViewTextChangeEvent onTextChangeEvent)
 				{
 					return onTextChangeEvent.text().toString();
 				}
