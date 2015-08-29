@@ -41,6 +41,13 @@ public class CardsGithubAdapter extends RecyclerView.Adapter<CardsGithubAdapter.
 	}
 
 
+	public void addGithubItems(List<GithubUserModel> githubItemsList)
+	{
+		mGithubItems.addAll(githubItemsList);
+		notifyDataSetChanged();
+	}
+
+
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{

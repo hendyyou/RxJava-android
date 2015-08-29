@@ -52,10 +52,15 @@ public class EditTextFragment extends BaseFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		if(getArguments() != null)
-		{
+	}
 
-		}
+
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	{
+		super.onActivityCreated(savedInstanceState);
+
+		renderView();
 	}
 
 
@@ -64,7 +69,6 @@ public class EditTextFragment extends BaseFragment
 	{
 		View layout = inflater.inflate(R.layout.fragment_edittext, container, false);
 		ButterKnife.bind(this, layout);
-		renderView();
 		return layout;
 	}
 

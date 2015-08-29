@@ -54,11 +54,18 @@ public class FirebaseFragment extends BaseFragment
 
 
 	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	{
+		super.onActivityCreated(savedInstanceState);
+		renderView();
+	}
+
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
 		View layout = inflater.inflate(R.layout.fragment_firebase, container, false);
 		ButterKnife.bind(this, layout);
-		renderView();
 		return layout;
 	}
 
@@ -97,9 +104,9 @@ public class FirebaseFragment extends BaseFragment
 		//RxAndroid approach
 		//****************************************
 		mCompositeSubscription.add(
-				RxCustomBus.getInstance().observe()
+				RxCustomBus.getInstance().observe(FirebaseDataEvent.class)
 						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe(new Subscriber<Object>()
+						.subscribe(new Subscriber<FirebaseDataEvent>()
 								   {
 									   @Override
 									   public void onCompleted()
@@ -116,13 +123,10 @@ public class FirebaseFragment extends BaseFragment
 
 
 									   @Override
-									   public void onNext(Object o)
+									   public void onNext(FirebaseDataEvent event)
 									   {
-										   if(o instanceof FirebaseDataEvent)
-										   {
-											   mRxAndroidTextView.setText(((FirebaseDataEvent) o).getFirebaseDataString());
+											   mRxAndroidTextView.setText(event.getFirebaseDataString());
 											   mProgressBar.setVisibility(View.GONE);
-										   }
 									   }
 								   }
 						)
