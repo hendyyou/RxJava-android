@@ -41,6 +41,10 @@ TODOs
  * [RxLifecycle](https://github.com/trello/RxLifecycle) - use this great lib or do something similar on my own
 
 
+Known Issues
+============
+ * [SpellCheckerSession leak](https://code.google.com/p/android/issues/detail?id=172542) - I thought that this is some kind of leak in RxBinding but it seems like problem with SDK
+
 Contribution
 ============
 
