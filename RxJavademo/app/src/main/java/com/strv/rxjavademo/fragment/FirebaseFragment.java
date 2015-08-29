@@ -46,10 +46,6 @@ public class FirebaseFragment extends BaseFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		if(getArguments() != null)
-		{
-
-		}
 	}
 
 

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.strv.rxjavademo.RxJavaDemoApplication;
 
+import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
 
 
@@ -20,5 +21,6 @@ public class BaseFragment extends Fragment
 		super.onDestroy();
 		RxJavaDemoApplication.getRefWatcher(getActivity()).watch(this);
 		mCompositeSubscription.unsubscribe();
+		ButterKnife.unbind(this);
 	}
 }

@@ -58,6 +58,9 @@ public class FirebaseService
 
 	public void unregisterDataObserver()
 	{
-		mFirebaseData.removeEventListener(mDataListener);
+		if(mDataListener != null)
+		{
+			mFirebaseData.removeEventListener(mDataListener);
+		}
 	}
 }
