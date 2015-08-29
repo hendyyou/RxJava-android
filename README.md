@@ -47,6 +47,7 @@ Known Issues
 ============
  * [SpellCheckerSession leak](https://code.google.com/p/android/issues/detail?id=172542) - I thought that this is some kind of leak in RxBinding but it seems like problem with SDK
 
+
 Contribution
 ============
 
@@ -59,6 +60,17 @@ Credit
 ======
 
 This project was created as a part of Developer meetup event held by my current employer [STRV](http://www.strv.com). We are really likeable guys so do not hesitate to check us out! :]
+
+
+Resources
+=========
+
+I would not be able to do this project without the help of few great websites/blog posts. I am so sorry that not everyone will be in this list but I read so many articles that I am unable to remember them all.
+
+ * [ReactiveX](http://reactivex.io/) - home page of whole Rx project. I recommend to read introduction, docs and then feel free to dive into resources for your desired language
+ * [Dan Lew's posts](http://blog.danlew.net/2014/09/15/grokking-rxjava-part-1/) - great posts about RxJava, Android and lambda
+ * [Roberto Orgiu's posts](https://medium.com/crunching-rxandroid) - another great intro into RxAndroid
+ * [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki) - wiki with few examples
 
 
 The MIT License (MIT)
