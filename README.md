@@ -21,12 +21,39 @@ Since we use [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrola
 Other than that, you should be ready to go. Just clone the repo and have fun!
 
 
+Used Libraries
+==============
+ * [RxJava](https://github.com/ReactiveX/RxJava) - Reactive Extensions for the JVM
+ * [RxAndroid](https://github.com/ReactiveX/RxAndroid) - RxJava bindings for Android
+ * [RxBinding](https://github.com/JakeWharton/RxBinding) - RxJava binding APIs for Android's UI widgets.
+ * [Butter Knife](https://github.com/JakeWharton/butterknife) - View "injection" library for Android
+ * [Picasso](https://github.com/square/picasso) - A powerful image downloading and caching library for Android
+ * [Retrofit](https://github.com/square/retrofit) - Type-safe REST client for Android and Java by Square, Inc.
+ * [Firebase](http://www.firebase.com) - Powerful backend services for your app
+ * [LeakCanary](https://github.com/square/leakcanary) - A memory leak detection library for Android and Java.
+
+
+TODOs
+=====
+ * Retrofit - Since there is new 2.0 beta, I would like to migrate from 1.9.
+ * Blog post - link my blogpost to/from this repo
+ * Event video record - link video record
+ * [RxLifecycle](https://github.com/trello/RxLifecycle) - use this great lib or do something similar on my own
+
+
 Contribution
 ============
 
 I will be more than happy if you want to contribute/fork this repo so we can provide more knowledge to our other colleagues.
 
 Since there is no comprehensive tutorial on RxJava/RxAndroid/RetroLambda (in one place), at least what I am aware of, it would be great to include as much as possible code examples. Please, have on mind that I would like to always have code examples for both RxAndroid and lambda way.
+
+
+Credit
+======
+
+This project was created as a part of Developer meetup event held by my current employer [STRV](http://www.strv.com). We are really likeable guys so do not hesitate to check us out! :]
+
 
 The MIT License (MIT)
 =====================
