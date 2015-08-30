@@ -4,7 +4,7 @@ This project is intented for every Android developer who is interested in Rx ext
 
 Covered fields:
  * how to combine Rx extension and Android UI - Button/EditText/Switch etc.
- * how to combine Rx extension and RetroFit + **caching of requests/data during the on configuration change**
+ * how to combine Rx extension and RetroFit + **caching of requests/data during the on configuration change in custom cache OR in RxBus in ReplaySubject**
  * how to combine Rx extension and Firebase
  * how to write your own Observables
  * how to write your own Otto/EventBus like Bus in Rx
