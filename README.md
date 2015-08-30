@@ -16,7 +16,7 @@ Covered fields:
 Usage
 =====
 
-Since we use [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrolambda) you have to have [jdk8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) installed on your computer.
+Since we use [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrolambda) you have to have [jdk8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) installed on your computer. If you are having any issues, go through [Gradle Retrolambda Plugin](https://github.com/evant/gradle-retrolambda) page for troubleshooting.
 
 Other than that, you should be ready to go. Just clone the repo and have fun!
 
