@@ -9,6 +9,9 @@ import rx.Observable;
 
 
 /**
+ * This class could be somehow generic with help of InstanceFactory, but lets keep it
+ * simple since this is just an example :]
+ *
  * Created by adamcerny on 29/08/15.
  */
 public class RequestCache
@@ -17,6 +20,7 @@ public class RequestCache
 
 	private List<Observable<GithubUserModel>> mGithubRequests = new ArrayList<Observable<GithubUserModel>>();
 	private List<GithubUserModel> mDataCache = new ArrayList<GithubUserModel>();
+
 
 	private RequestCache()
 	{

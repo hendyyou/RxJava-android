@@ -5,17 +5,17 @@ package com.strv.rxjavademo.Event;
  */
 public class FirebaseDataEvent
 {
-	private String firebaseDataString;
+	private String mFirebaseDataString;
 
 
 	public String getFirebaseDataString()
 	{
-		return firebaseDataString;
+		return mFirebaseDataString;
 	}
 
 
 	public void setFirebaseDataString(String firebaseDataString)
 	{
-		this.firebaseDataString = firebaseDataString;
+		this.mFirebaseDataString = firebaseDataString;
 	}
 }

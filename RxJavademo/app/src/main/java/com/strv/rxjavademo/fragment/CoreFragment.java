@@ -75,7 +75,14 @@ public class CoreFragment extends BaseFragment
 	@OnClick(R.id.fragment_core_retrofit_button)
 	public void clickRetroFitDemo()
 	{
-		showFragment(RetrofitFragment.class.getName(), RetrofitFragment.newInstance());
+		showFragment(RetrofitCustomCacheFragment.class.getName(), RetrofitCustomCacheFragment.newInstance());
+	}
+
+
+	@OnClick(R.id.fragment_core_retrofit_bus_button)
+	public void clickRetroFitBusDemo()
+	{
+		showFragment(RetrofitRxBusCacheFragment.class.getName(), RetrofitRxBusCacheFragment.newInstance());
 	}
 
 

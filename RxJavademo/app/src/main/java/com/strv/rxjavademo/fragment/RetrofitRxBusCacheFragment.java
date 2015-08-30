@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.strv.rxjavademo.Event.RetrofitRequestEvent;
 import com.strv.rxjavademo.R;
 import com.strv.rxjavademo.adapter.CardsGithubAdapter;
-import com.strv.rxjavademo.cache.RequestCache;
+import com.strv.rxjavademo.bus.RxCustomCacheBus;
 import com.strv.rxjavademo.model.GithubUserModel;
 import com.strv.rxjavademo.service.GithubService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
@@ -26,13 +25,14 @@ import retrofit.RestAdapter;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 
 /**
  * Created by adamcerny on 24/08/15.
  */
-public class RetrofitFragment extends BaseFragment
+public class RetrofitRxBusCacheFragment extends BaseFragment
 {
 	@Bind(R.id.fragment_retrofit_example_recycler)
 	RecyclerView mRecyclerView;
@@ -42,16 +42,17 @@ public class RetrofitFragment extends BaseFragment
 
 	private CardsGithubAdapter mCardAdapter;
 
-	private RequestCache mCache;
+	private RxCustomCacheBus mRxBusRequestCache = RxCustomCacheBus.getInstance();
 
-	public static RetrofitFragment newInstance()
+
+	public static RetrofitRxBusCacheFragment newInstance()
 	{
-		RetrofitFragment fragment = new RetrofitFragment();
+		RetrofitRxBusCacheFragment fragment = new RetrofitRxBusCacheFragment();
 		return fragment;
 	}
 
 
-	public RetrofitFragment()
+	public RetrofitRxBusCacheFragment()
 	{
 		super();
 	}
@@ -86,6 +87,9 @@ public class RetrofitFragment extends BaseFragment
 	@OnClick(R.id.fragment_retrofit_lambda_example_button)
 	public void clickLoadLambdaData()
 	{
+		if(mProgressBar.getVisibility() == View.VISIBLE)
+			return;
+
 		mCardAdapter.clearAdapter();
 
 		GithubService service = new RestAdapter.Builder()
@@ -95,10 +99,9 @@ public class RetrofitFragment extends BaseFragment
 
 		mProgressBar.setVisibility(View.VISIBLE);
 
-		for(String username : RetrofitFragment.getGithubusernames)
+		for(String username : RetrofitCustomCacheFragment.getGithubusernames)
 		{
 			Observable<GithubUserModel> request = service.getUser(username).cache();
-			mCache.saveRequest(request);
 
 			mCompositeSubscription.add(
 					request
@@ -106,13 +109,17 @@ public class RetrofitFragment extends BaseFragment
 							.observeOn(AndroidSchedulers.mainThread())
 							.delay(2, TimeUnit.SECONDS)
 							.observeOn(AndroidSchedulers.mainThread())
+							.doOnUnsubscribe(() ->
+							{
+								RetrofitRequestEvent event = new RetrofitRequestEvent();
+								event.setRequest(request);
+								mRxBusRequestCache.publish(event);
+							})
 							.subscribe(item ->
 									{
 										mCardAdapter.addGithubItem(item);
-										mCache.saveData(item);
-										mCache.deleteRequest(request);
 
-										if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+										if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
 										{
 											mProgressBar.setVisibility(View.GONE);
 										}
@@ -133,6 +140,9 @@ public class RetrofitFragment extends BaseFragment
 	@OnClick(R.id.fragment_retrofit_rxandroid_example_button)
 	public void clickLoadRxAndroidData()
 	{
+		if(mProgressBar.getVisibility() == View.VISIBLE)
+			return;
+
 		mCardAdapter.clearAdapter();
 
 		GithubService service = new RestAdapter.Builder()
@@ -142,10 +152,9 @@ public class RetrofitFragment extends BaseFragment
 
 		mProgressBar.setVisibility(View.VISIBLE);
 
-		for(String username : RetrofitFragment.getGithubusernames)
+		for(String username : RetrofitCustomCacheFragment.getGithubusernames)
 		{
 			Observable<GithubUserModel> request = service.getUser(username).cache();
-			mCache.saveRequest(request);
 
 			mCompositeSubscription.add(
 					request
@@ -153,16 +162,24 @@ public class RetrofitFragment extends BaseFragment
 							.observeOn(AndroidSchedulers.mainThread())
 							.delay(2, TimeUnit.SECONDS)
 							.observeOn(AndroidSchedulers.mainThread())
+							.doOnUnsubscribe(new Action0()
+							{
+								@Override
+								public void call()
+								{
+									RetrofitRequestEvent event = new RetrofitRequestEvent();
+									event.setRequest(request);
+									mRxBusRequestCache.publish(event);
+								}
+							})
 							.subscribe(new Subscriber<GithubUserModel>()
 							{
 								@Override
 								public void onNext(GithubUserModel item)
 								{
 									mCardAdapter.addGithubItem(item);
-									mCache.saveData(item);
-									mCache.deleteRequest(request);
 
-									if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
+									if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
 									{
 										mProgressBar.setVisibility(View.GONE);
 									}
@@ -198,15 +215,9 @@ public class RetrofitFragment extends BaseFragment
 
 	private void handleCache()
 	{
-		mCache = RequestCache.getInstance();
-		if(mCache.hasRequests())
+		if(mRxBusRequestCache.hasEventsOfType(RetrofitRequestEvent.class))
 		{
 			reSubscribe();
-		}
-
-		if(mCache.hasData())
-		{
-			mCardAdapter.addGithubItems(mCache.getData());
 		}
 	}
 
@@ -215,48 +226,30 @@ public class RetrofitFragment extends BaseFragment
 	{
 		mProgressBar.setVisibility(View.VISIBLE);
 
-		for(Observable<GithubUserModel> request : mCache.getRequests())
-		{
-			mCompositeSubscription.add(
-					request
-							.subscribeOn(Schedulers.io())
-							.observeOn(AndroidSchedulers.mainThread())
-							.delay(2, TimeUnit.SECONDS)
-							.observeOn(AndroidSchedulers.mainThread())
-							.subscribe(item ->
-									{
-										mCardAdapter.addGithubItem(item);
-										mCache.deleteRequest(request);
-										mCache.saveData(item);
+		//mCompositeSubscription.add(
+				mRxBusRequestCache.observe(RetrofitRequestEvent.class)
+						.subscribe(item ->
+										item.getRequest()
+												.subscribeOn(Schedulers.io())
+												.observeOn(AndroidSchedulers.mainThread())
+												.subscribe(response ->
+														{
+															mCardAdapter.addGithubItem(response);
 
-										if(mCardAdapter.getItemCount() == RetrofitFragment.getGithubusernames.size())
-										{
-											mProgressBar.setVisibility(View.GONE);
-										}
-									},
-									error ->
-									{
-										mProgressBar.setVisibility(View.GONE);
-										System.out.println("FUCK : error is : " + error.getLocalizedMessage());
-									},
-									() -> {
-									}
-							)
-			);
-		}
-
+															if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
+															{
+																mProgressBar.setVisibility(View.GONE);
+															}
+														},
+														error ->
+														{
+															mProgressBar.setVisibility(View.GONE);
+															System.out.println("FUCK : error is : " + error.getLocalizedMessage());
+														},
+														() -> {
+														})
+						)
+						.unsubscribe();
+		//);
 	}
-
-
-	public static List<String> getGithubusernames = new ArrayList<String>() {{
-		add("strvcom");
-		add("linkedin");
-		add("tumblr");
-		add("square");
-		add("google");
-		add("stripe");
-		add("angular");
-		add("facebook");
-		add("rails");
-	}};
 }

@@ -1,9 +1,9 @@
 package com.strv.rxjavademo.bus;
 
-import com.strv.rxjavademo.Event.FirebaseDataEvent;
+import com.strv.rxjavademo.fragment.ClickCounterFragment;
 
 import rx.Observable;
-import rx.functions.Func1;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
@@ -11,6 +11,12 @@ import rx.subjects.Subject;
 
 /**
  * Created by adamcerny on 28/08/15.
+ *
+ * As you can see, we are using PublishSubject object. Once there is an observer,
+ * subject publishes its events to it and they are no longer accessible.
+ *
+ * However, if you want to cache events to be able to send them to diferent subscribers,
+ * you should use ReplaySubject.
  */
 public class RxCustomBus
 {

@@ -9,6 +9,7 @@
 	<string name="fragment_core_edittext_form_text">Form example</string>
 	<string name="fragment_core_autocomplete_form_text">Autocomplete example</string>
 	<string name="fragment_core_retrofit_button_text">RetroFit example</string>
+	<string name="fragment_core_retrofit_bus_button_text">RetroFit-RxBus example</string>
 	<string name="fragment_core_firebase_button_text">Firebase example</string>
 
 
