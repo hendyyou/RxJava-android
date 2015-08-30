@@ -71,7 +71,7 @@ I would not be able to do this project without the help of few great websites/bl
  * [Dan Lew's posts](http://blog.danlew.net/2014/09/15/grokking-rxjava-part-1/) - great posts about RxJava, Android and lambda
  * [Roberto Orgiu's posts](https://medium.com/crunching-rxandroid) - another great intro into RxAndroid
  * [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki) - wiki with few examples
- * [Andre Staltz's article](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)- The introduction to Reactive Programming you've been missing - not Java oriented, but worth reading!
+ * [Andre Staltz's article](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754) - The introduction to Reactive Programming you've been missing - not Java oriented, but worth reading!
 
 
 The MIT License (MIT)
