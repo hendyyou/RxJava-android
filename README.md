@@ -40,7 +40,6 @@ TODOs
  * Event video record - link video record
  * [RxLifecycle](https://github.com/trello/RxLifecycle) - use this great lib or do something similar on my own
  * Add custom Observable example
- * Add complex example how to use advanced RxJava functions
 
 
 Known Issues
