@@ -1,9 +1,6 @@
 package com.strv.rxjavademo.bus;
 
-import java.util.concurrent.TimeUnit;
-
 import rx.Observable;
-import rx.schedulers.Schedulers;
 import rx.subjects.ReplaySubject;
 import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
@@ -83,13 +80,11 @@ public class RxCustomCacheBus
 	 */
 	public <T extends Object> boolean hasEventsOfType(final Class<T> eventType)
 	{
-
 		Object[] events = rxBus.getValues();
 
 		int count = 0;
 		for(Object e : events)
 		{
-			System.out.println("FUCK : type is : " + e.getClass());
 			if(eventType.isInstance(e))
 			{
 				count++;
@@ -97,11 +92,5 @@ public class RxCustomCacheBus
 		}
 
 		return (count > 0);
-	}
-
-
-	public class Counter
-	{
-		public int eventCounter;
 	}
 }

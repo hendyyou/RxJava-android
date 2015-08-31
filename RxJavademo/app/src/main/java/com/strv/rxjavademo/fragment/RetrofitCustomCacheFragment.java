@@ -104,30 +104,30 @@ public class RetrofitCustomCacheFragment extends BaseFragment
 			mCache.saveRequest(request);
 
 			mCompositeSubscription.add(
-					request
-							.subscribeOn(Schedulers.io())
-							.observeOn(AndroidSchedulers.mainThread())
-							.delay(2, TimeUnit.SECONDS)
-							.observeOn(AndroidSchedulers.mainThread())
-							.subscribe(item ->
-									{
-										mCardAdapter.addGithubItem(item);
-										mCache.saveData(item);
-										mCache.deleteRequest(request);
+				request
+					.subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread())
+					.delay(2, TimeUnit.SECONDS)
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(item ->
+					{
+						mCardAdapter.addGithubItem(item);
+						mCache.saveData(item);
+						mCache.deleteRequest(request);
 
-										if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
-										{
-											mProgressBar.setVisibility(View.GONE);
-										}
-									},
-									error ->
-									{
-										mProgressBar.setVisibility(View.GONE);
-										System.out.println("FUCK : error is : " + error.getLocalizedMessage());
-									},
-									() -> {
-									}
-							)
+						if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
+						{
+							mProgressBar.setVisibility(View.GONE);
+						}
+					},
+					error ->
+					{
+						mProgressBar.setVisibility(View.GONE);
+						System.out.println("FUCK : error is : " + error.getLocalizedMessage());
+					},
+					() -> {
+					}
+				)
 			);
 		}
 	}
@@ -154,40 +154,40 @@ public class RetrofitCustomCacheFragment extends BaseFragment
 			mCache.saveRequest(request);
 
 			mCompositeSubscription.add(
-					request
-							.subscribeOn(Schedulers.io())
-							.observeOn(AndroidSchedulers.mainThread())
-							.delay(2, TimeUnit.SECONDS)
-							.observeOn(AndroidSchedulers.mainThread())
-							.subscribe(new Subscriber<GithubUserModel>()
+				request
+					.subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread())
+					.delay(2, TimeUnit.SECONDS)
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Subscriber<GithubUserModel>()
+					{
+						@Override
+						public void onNext(GithubUserModel item)
+						{
+							mCardAdapter.addGithubItem(item);
+							mCache.saveData(item);
+							mCache.deleteRequest(request);
+
+							if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
 							{
-								@Override
-								public void onNext(GithubUserModel item)
-								{
-									mCardAdapter.addGithubItem(item);
-									mCache.saveData(item);
-									mCache.deleteRequest(request);
-
-									if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
-									{
-										mProgressBar.setVisibility(View.GONE);
-									}
-								}
+								mProgressBar.setVisibility(View.GONE);
+							}
+						}
 
 
-								@Override
-								public void onCompleted()
-								{
-								}
+						@Override
+						public void onCompleted()
+						{
+						}
 
 
-								@Override
-								public void onError(Throwable e)
-								{
-									mProgressBar.setVisibility(View.GONE);
-									System.out.println("FUCK : error is : " + e.getLocalizedMessage());
-								}
-							})
+						@Override
+						public void onError(Throwable e)
+						{
+							mProgressBar.setVisibility(View.GONE);
+							System.out.println("FUCK : error is : " + e.getLocalizedMessage());
+						}
+					})
 			);
 		}
 	}
@@ -224,28 +224,28 @@ public class RetrofitCustomCacheFragment extends BaseFragment
 		for(Observable<GithubUserModel> request : mCache.getRequests())
 		{
 			mCompositeSubscription.add(
-					request
-							.subscribeOn(Schedulers.io())
-							.observeOn(AndroidSchedulers.mainThread())
-							.subscribe(item ->
-									{
-										mCardAdapter.addGithubItem(item);
-										mCache.deleteRequest(request);
-										mCache.saveData(item);
+				request
+					.subscribeOn(Schedulers.io())
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(item ->
+					{
+						mCardAdapter.addGithubItem(item);
+						mCache.deleteRequest(request);
+						mCache.saveData(item);
 
-										if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
-										{
-											mProgressBar.setVisibility(View.GONE);
-										}
-									},
-									error ->
-									{
-										mProgressBar.setVisibility(View.GONE);
-										System.out.println("FUCK : error is : " + error.getLocalizedMessage());
-									},
-									() -> {
-									}
-							)
+						if(mCardAdapter.getItemCount() == RetrofitCustomCacheFragment.getGithubusernames.size())
+						{
+							mProgressBar.setVisibility(View.GONE);
+						}
+					},
+					error ->
+					{
+						mProgressBar.setVisibility(View.GONE);
+						System.out.println("FUCK : error is : " + error.getLocalizedMessage());
+					},
+					() -> {
+					}
+				)
 			);
 		}
 
