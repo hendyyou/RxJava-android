@@ -39,11 +39,11 @@ public class OperatorFragment extends BaseFragment
 
 	private String[] mApiCallContent =
 			{
-					"{\"call_content\": \"Rx is like a god! \"}",
-					"{\"call_content\": \"LISP, really? \"}",
-					"{\"call_content\": \"Cpp - nice \"}",
-					"{\"call_content\": \"C& - oh \"}",
-					"{\"call_content\": \"need language, man! \"}"
+				"{\"call_content\": \"Rx is like a god! \"}",
+				"{\"call_content\": \"LISP, really? \"}",
+				"{\"call_content\": \"Cpp - nice \"}",
+				"{\"call_content\": \"C& - oh \"}",
+				"{\"call_content\": \"need language, man! \"}"
 			};
 
 
