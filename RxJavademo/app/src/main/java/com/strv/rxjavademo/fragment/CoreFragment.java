@@ -93,6 +93,13 @@ public class CoreFragment extends BaseFragment
 	}
 
 
+	@OnClick(R.id.fragment_core_operator_button)
+	public void clickOperatorDemo()
+	{
+		showFragment(OperatorFragment.class.getName(), OperatorFragment.newInstance());
+	}
+
+
 	private void showFragment(String className, Fragment fragment)
 	{
 		getActivity().getSupportFragmentManager()

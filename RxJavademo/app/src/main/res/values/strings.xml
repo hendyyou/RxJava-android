@@ -11,6 +11,7 @@
 	<string name="fragment_core_retrofit_button_text">RetroFit example</string>
 	<string name="fragment_core_retrofit_bus_button_text">RetroFit-RxBus example</string>
 	<string name="fragment_core_firebase_button_text">Firebase example</string>
+	<string name="fragment_core_operator_button_text">Operators example</string>
 
 
 	<!-- Click Counter fragment String -->
@@ -40,5 +41,10 @@
 
 	<!-- Firebase string-->
 	<string name="fragment_firebase_lambda_button_text">Get firebase data</string>
+
+
+	<!-- Operator string-->
+	<string name="fragment_operator_lambda_button_text">Run test - lambda</string>
+	<string name="fragment_operator_rxandroid_button_text">Run test - classic</string>
 
 </resources>

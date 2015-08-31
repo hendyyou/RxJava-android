@@ -66,6 +66,13 @@
 			android:text="@string/fragment_core_firebase_button_text"
 			/>
 
+		<Button
+			android:id="@+id/fragment_core_operator_button"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="@string/fragment_core_operator_button_text"
+			/>
+
 	</LinearLayout>
 
 </ScrollView>
