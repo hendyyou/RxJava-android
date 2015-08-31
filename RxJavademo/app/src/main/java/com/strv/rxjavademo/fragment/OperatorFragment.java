@@ -115,21 +115,22 @@ public class OperatorFragment extends BaseFragment
 					return content;
 				});
 
-
-		//Show how we can synchronize API calls with different completion time
-		Observable.zip(sampleObservable, apiCallCodeObservable, apiCallContentObservable, (a, b, c) ->
+		mCompositeSubscription.add(
+			//Show how we can synchronize API calls with different completion time
+			Observable.zip(sampleObservable, apiCallCodeObservable, apiCallContentObservable, (a, b, c) ->
+				{
+					ApiCallEvent event = new ApiCallEvent();
+					event.setSample(a.intValue());
+					event.setCode(b);
+					event.setContent(c);
+					return event;
+				})
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(item ->
 			{
-				ApiCallEvent event = new ApiCallEvent();
-				event.setSample(a.intValue());
-				event.setCode(b);
-				event.setContent(c);
-				return event;
+				mTest1TextView.setText(item.getSample() + " " + item.getCode() + " " + item.getContent() + "\n" + mTest1TextView.getText());
 			})
-		.observeOn(AndroidSchedulers.mainThread())
-		.subscribe(item ->
-		{
-			mTest1TextView.setText(item.getSample() + " " + item.getCode() + " " + item.getContent() + "\n" + mTest1TextView.getText());
-		});
+		);
 	}
 
 	private void runRxandroidTest()
@@ -154,28 +155,29 @@ public class OperatorFragment extends BaseFragment
 					}
 				});
 
-
-		//Show how we can synchronize API calls with different completion time
-		Observable.zip(sampleObservable, apiCallCodeObservable, apiCallContentObservable, new Func3<Long, String, String, ApiCallEvent>()
-		{
-			@Override
-			public ApiCallEvent call(Long aLong, String s, String s2)
+		mCompositeSubscription.add(
+			//Show how we can synchronize API calls with different completion time
+			Observable.zip(sampleObservable, apiCallCodeObservable, apiCallContentObservable, new Func3<Long, String, String, ApiCallEvent>()
 			{
-				ApiCallEvent event = new ApiCallEvent();
-				event.setSample(aLong.intValue());
-				event.setCode(s);
-				event.setContent(s2);
-				return event;
-			}
-		})
-		.observeOn(AndroidSchedulers.mainThread())
-		.subscribe(new Action1<ApiCallEvent>()
-		{
-			@Override
-			public void call(ApiCallEvent apiCallEvent)
+				@Override
+				public ApiCallEvent call(Long aLong, String s, String s2)
+				{
+					ApiCallEvent event = new ApiCallEvent();
+					event.setSample(aLong.intValue());
+					event.setCode(s);
+					event.setContent(s2);
+					return event;
+				}
+			})
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Action1<ApiCallEvent>()
 			{
-				mTest1TextView.setText(apiCallEvent.getSample() + " " + apiCallEvent.getCode() + " " + apiCallEvent.getContent() + "\n" + mTest1TextView.getText());
-			}
-		});
+				@Override
+				public void call(ApiCallEvent apiCallEvent)
+				{
+					mTest1TextView.setText(apiCallEvent.getSample() + " " + apiCallEvent.getCode() + " " + apiCallEvent.getContent() + "\n" + mTest1TextView.getText());
+				}
+			})
+		);
 	}
 }
