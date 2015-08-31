@@ -10,7 +10,7 @@ Covered fields:
  * how to write your own Otto/EventBus like Bus in Rx
  * how to do more complex operations with map functions - filters/maps etc.
  * usage of method references
- * **every sample is written in both classic RxAndroid and in modern lambda manner**
+ * **every sample is written in both classic and in modern lambda manner**
 
 
 Usage
@@ -53,7 +53,7 @@ Contribution
 
 I will be more than happy if you want to contribute/fork this repo so we can provide more knowledge to our other colleagues.
 
-Since there is no comprehensive tutorial on RxJava/RxAndroid/RetroLambda (in one place), at least what I am aware of, it would be great to include as much as possible code examples. Please, have on mind that I would like to always have code examples for both RxAndroid and lambda way.
+Since there is no comprehensive tutorial on RxJava/RxAndroid/RetroLambda (in one place), at least what I am aware of, it would be great to include as much as possible code examples. Please, have on mind that I would like to always have code examples for both classic and lambda way.
 
 
 Credit
