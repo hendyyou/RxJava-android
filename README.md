@@ -2,6 +2,8 @@
 
 This project is intented for every Android developer who is interested in Rx extension for Java language.
 
+If you want, you can look on my [presentation](https://docs.google.com/presentation/d/1tL6vwjg3Ct-amu3qfm8cDjoLHPnkCUXjhWifoVaNIrs/edit?usp=sharing) about Rx, mostly beginner stuff.
+
 Covered fields:
  * how to combine Rx extension and Android UI - Button/EditText/Switch etc.
  * how to combine Rx extension and RetroFit + **caching of requests/data during the on configuration change in custom cache OR in RxBus in ReplaySubject**
