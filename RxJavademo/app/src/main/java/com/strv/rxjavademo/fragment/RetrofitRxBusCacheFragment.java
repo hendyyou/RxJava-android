@@ -21,7 +21,9 @@ import java.util.concurrent.TimeUnit;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.RestAdapter;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -92,8 +94,10 @@ public class RetrofitRxBusCacheFragment extends BaseFragment
 
 		mCardAdapter.clearAdapter();
 
-		GithubService service = new RestAdapter.Builder()
-				.setEndpoint(GithubService.BASE_ENDPOINT)
+		GithubService service = new Retrofit.Builder()
+				.baseUrl(GithubService.BASE_ENDPOINT)
+				.addConverterFactory(GsonConverterFactory.create())
+				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.build()
 				.create(GithubService.class);
 
@@ -145,8 +149,10 @@ public class RetrofitRxBusCacheFragment extends BaseFragment
 
 		mCardAdapter.clearAdapter();
 
-		GithubService service = new RestAdapter.Builder()
-				.setEndpoint(GithubService.BASE_ENDPOINT)
+		GithubService service = new Retrofit.Builder()
+				.baseUrl(GithubService.BASE_ENDPOINT)
+				.addConverterFactory(GsonConverterFactory.create())
+				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.build()
 				.create(GithubService.class);
 

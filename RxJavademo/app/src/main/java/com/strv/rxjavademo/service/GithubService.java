@@ -12,8 +12,8 @@ import rx.Observable;
  */
 public interface GithubService
 {
-	final String BASE_ENDPOINT = "https://api.github.com";
+	final String BASE_ENDPOINT = "https://api.github.com/";
 
-	@GET("/users/{company}")
+	@GET("users/{company}")
 	Observable<GithubUserModel> getUser(@Path("company") String company);
 }
