@@ -37,7 +37,6 @@ Used Libraries
 
 TODOs
 =====
- * Retrofit - Since there is new 2.0 beta, I would like to migrate from 1.9.
  * Blog post - link my blogpost to/from this repo
  * Event video record - link video record
  * [RxLifecycle](https://github.com/trello/RxLifecycle) - use this great lib or do something similar on my own
